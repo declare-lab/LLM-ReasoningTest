@@ -169,6 +169,18 @@ class VLLMModel(BaseModel, arbitrary_types_allowed=True):
         pred = pred.split("<|endoftext|>")[0]
         return pred
 
+    def generate_batch(self, prompts):
+        outputs = []
+        for p in tqdm(prompts):
+            if p == "NA":
+                outputs.append("NA")
+                continue
+            out = self.generate(p)
+            outputs.append(out)
+            print(p)
+            print(out)
+        return outputs
+
 
 def select_model(model_name, **kwargs):
     if model_name == "o1":

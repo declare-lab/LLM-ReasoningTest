@@ -1,11 +1,11 @@
 import pandas as pd
-from execution import easy_check
 from fire import Fire
-from helper import split_test_cases
-from template import Template
 from tqdm import tqdm
 
+from execution import easy_check
+from helper import split_test_cases
 from modeling import select_model
+from template import Template
 
 
 def gen_solution(filename: str, model_name="gpt4"):
@@ -15,7 +15,6 @@ def gen_solution(filename: str, model_name="gpt4"):
     method: dp, cot, pot, consistency
     """
     print(locals())
-    dataset_name = "gsm8k" if "gsm8k" in filename else "human_eval"
 
     df = pd.read_csv(filename)
     model = select_model(model_name)
@@ -24,7 +23,7 @@ def gen_solution(filename: str, model_name="gpt4"):
     prompts = []
 
     for i, o in df.iterrows():
-        if dataset_name == "gsm8k":
+        if "more" in filename:
             counterfactual = o["counterfactual"]
             if counterfactual == "NA" or str(counterfactual) == "nan":
                 prompts.append("NA")
@@ -33,7 +32,7 @@ def gen_solution(filename: str, model_name="gpt4"):
                 perturbed_question=counterfactual, model=model_name
             )
 
-        elif dataset_name == "human_eval":
+        elif "core" in filename:
             counterfactual = o["counterfactual"]
             instruction = o["instruction"]
             if counterfactual == "NA" or str(counterfactual) == "nan":
@@ -63,7 +62,6 @@ def check_solution_more(filename: str, eval_model_name="4o"):
     method: dp, cot, pot, consistency
     """
     print(locals())
-    dataset_name = "gsm8k"
 
     df = pd.read_csv(filename)
     model = select_model(eval_model_name)
@@ -98,7 +96,6 @@ def gen_testcode_core(filename: str = "human_eval.csv", model_name="4o"):
     model_name: chatgpt gpt4...
     """
     print(locals())
-    dataset_name = "human_eval"
 
     df = pd.read_csv(filename)
     model = select_model(model_name, temperature=0.0)
@@ -224,6 +221,7 @@ def math(filename, model_name):
     print("Evaluting using GPT4o")
     check_solution_more(filename)
 
+
 def code(filename, model_name):
     print(f"Generating Solution from {model_name}")
     gen_solution(filename, model_name)
@@ -232,6 +230,7 @@ def code(filename, model_name):
     print("Running testcases")
     run_testcode_core(filename)
     # check_solution_core(filename)
+
 
 if __name__ == "__main__":
     Fire()
