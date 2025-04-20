@@ -45,7 +45,7 @@ class Generate(ABC):
 
 
 class GPT_o1(BaseModel, Generate, arbitrary_types_allowed=True, extra="allow"):
-    azure_endpoint = "https://declaregpt4.openai.azure.com/"
+    azure_endpoint = "https://XXXXXXgpt4.openai.azure.com/"
     api_key: Optional[str] = None
     api_version = "2024-02-01"
     loaded = False
@@ -53,7 +53,7 @@ class GPT_o1(BaseModel, Generate, arbitrary_types_allowed=True, extra="allow"):
     def load(self):
         api_key = os.environ["o1_preview_api"]
         self.client = AzureOpenAI(
-            azure_endpoint="https://declaregpt4.openai.azure.com/",
+            azure_endpoint="https://XXXXXXgpt4.openai.azure.com/",
             api_key=api_key,
             api_version="2024-02-01",
         )
@@ -78,7 +78,7 @@ class GPT_o1(BaseModel, Generate, arbitrary_types_allowed=True, extra="allow"):
 
 
 class GPT_4o(BaseModel, Generate, arbitrary_types_allowed=True, extra="allow"):
-    azure_endpoint = "https://declaregpt4.openai.azure.com/"
+    azure_endpoint = "https://XXXXXXgpt4.openai.azure.com/"
     api_key: Optional[str] = None
     api_version = "2024-02-01"
     loaded = False
@@ -86,7 +86,7 @@ class GPT_4o(BaseModel, Generate, arbitrary_types_allowed=True, extra="allow"):
     def load(self):
         api_key = os.environ["gpt4o_api"]
         self.client = AzureOpenAI(
-            azure_endpoint="https://declaregpt4.openai.azure.com/",
+            azure_endpoint="https://XXXXXXgpt4.openai.azure.com/",
             api_key=api_key,
             api_version="2024-02-01",
         )
